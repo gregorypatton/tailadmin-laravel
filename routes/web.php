@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-
+use App\Models\Product;
 
 /**
  * You can register your routes here.
@@ -230,14 +230,17 @@ Route::middleware([
         return Inertia::render('Samples/FormElements/SimpleField');
     })->name('form-simple-field');
     Route::get('form-repeatable-field', function () {
-        return Inertia::render('Samples/FormElements/RepeatableField');
+        return Inertia::render('Samples/FormElements/RepeatableField', props: [
+            'products' => App\Models\Product::all()
+        ]);
     })->name('form-repeatable-field');
+
     Route::get('form-date-field', function () {
         return Inertia::render('Samples/FormElements/DateField');
     })->name('form-date-field');
     Route::get('form-select-input', function () {
         return Inertia::render('Samples/FormElements/SelectInput', [
-            'users' => \App\Models\User::all()
+            'users' => App\Models\Product::all()
         ]);
     })->name('form-select-input');
     Route::get('form-tag-input', function () {

@@ -17,29 +17,29 @@
     <!--Panel-->
     <div
         v-if="showPanel"
-        class="absolute flex flex-col w-full border border-gray-300 py-4 px-2 rounded-md mt-2 space-y-2 bg-gradient-to-t from-gray-200 to-gray-100 shadow-inner shadow z-10">
+        class="absolute z-10 flex flex-col w-full px-2 py-4 mt-2 space-y-2 border border-gray-300 rounded-md shadow shadow-inner bg-gradient-to-t from-gray-200 to-gray-100">
       <!--Fields-->
       <div class="flex flex-row items-center">
         <!--Conditional View-->
         <input v-if="value1name"
                v-model="value1"
-               :class="value2name == null ? 'rounded-md border' : 'md:rounded-l md:rounded-r-none md:border-r-0'" :placeholder="value1name" class="flex w-full rounded  border-gray-300 p-2" name="value1"
+               :class="value2name == null ? 'rounded-md border' : 'md:rounded-l md:rounded-r-none md:border-r-0'" :placeholder="value1name" class="flex w-full p-2 border-gray-300 rounded" name="value1"
                type="text"/>
-        <input v-if="value2name" v-model="value2" :placeholder="value2name" class="flex w-full rounded md:rounded-r md:rounded-l-none border border-gray-300 p-2"
+        <input v-if="value2name" v-model="value2" :placeholder="value2name" class="flex w-full p-2 border border-gray-300 rounded md:rounded-r md:rounded-l-none"
                name="value2"
                type="text"/>
         <!--Add Button-->
-        <div class="flex items-center justify-center ml-1 h-10">
+        <div class="flex items-center justify-center h-10 ml-1">
           <t-button color="green" type="button" @click="addItem">
             <t-plus-circle-icon class="w-6 h-6 md:w-5 md:h-5"/>
-            <span class="hidden md:block pr-2">Add</span>
+            <span class="hidden pr-2 md:block">Add</span>
           </t-button>
         </div>
       </div>
-      <div v-if="emptyMessage != null" class="text-red-500 text-sm">{{ emptyMessage }}</div>
+      <div v-if="emptyMessage != null" class="text-sm text-red-500">{{ emptyMessage }}</div>
       <!--Header-->
       <div v-if="modelValue.length >0"
-           class="grid grid-cols-12 w-full border-b border-gray-300 items-center space-x-2 px-2 py-1 font-bold ">
+           class="grid items-center w-full grid-cols-12 px-2 py-1 space-x-2 font-bold border-b border-gray-300 ">
         <span class="col-span-1"></span>
         <span class="col-span-5">{{ value1name }}</span>
         <span class="col-span-5">{{ value2name }}</span>
@@ -47,7 +47,7 @@
       </div>
       <!--Items-->
       <div v-for="(item,index) in modelValue" :key="index"
-           class="grid grid-cols-12 bg-gray-50 border rounded-md items-center space-x-2 px-2 py-1">
+           class="grid items-center grid-cols-12 px-2 py-1 space-x-2 border rounded-md bg-gray-50">
         <!--Counter-->
         <span class="col-span-1">{{ index + 1 }}.</span>
         <!--Fields-->

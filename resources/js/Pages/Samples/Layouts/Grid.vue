@@ -5,7 +5,7 @@
     <template #default>
       <grid-section :col-tablet="2" :col-laptop="3" :col-desktop="4">
         <div v-for="i in 6"
-             class="bg-gray-300 border border-gray-500 h-16 items-center justify-center flex font-bold text-xl">
+             class="flex items-center justify-center h-16 text-xl font-bold bg-gray-300 border border-gray-500">
           {{ 'Col ' + i }}
         </div>
       </grid-section>
