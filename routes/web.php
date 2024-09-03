@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\Product;
 use App\Http\Controllers\LabelSheetController;
-
+use App\Http\Controllers\GridStackController;
 use App\Http\Controllers\BarcodeController;
 
 /**
@@ -83,7 +83,7 @@ Route::middleware([
 
     Route::get('/barcode/create', [BarcodeController::class, 'create'])->name('barcode.create');
     Route::post('/label/generate', [LabelSheetController::class, 'generateLabels'])->name('label.generate');
-
+    Route::get('/gridstack', [GridStackController::class, 'index'])->name('gridstack.index');
 
     /*This pages for example, you can delete when you design the your system*/
     //Example Pages
