@@ -166,7 +166,7 @@
 import {defineComponent, reactive} from "vue";
 
 /*Components*/
-import AppLayout from "@/Layouts/AppLayout-new.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
 import GridSection from "@/Layouts/GridSection.vue";
 import TStatisticWidget from "@/Components/Card/TStatisticWidget.vue";
 import TCashIcon from "@/Components/Icon/TCashIcon.vue";

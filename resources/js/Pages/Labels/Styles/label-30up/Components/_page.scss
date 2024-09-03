@@ -1,0 +1,10 @@
+.page {
+  width: $page-width;
+  margin: 0;
+  margin-left: -0.02in !important;
+  margin-top: -7px !important;
+  padding: 0.5in 0 0 0.3in;
+  font-family: $font-arial;
+  text-align: center;
+  page-break-after: always;
+}

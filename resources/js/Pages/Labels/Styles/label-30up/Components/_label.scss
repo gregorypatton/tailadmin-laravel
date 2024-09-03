@@ -1,0 +1,66 @@
+.label {
+  box-sizing: border-box;
+  width: $label-width;
+  height: $label-height;
+  padding: $label-padding;
+  margin-right: $spacing-margin-right;
+  margin-top: $spacing-margin-top;
+  float: left;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 5px;
+
+  h1 {
+    font-size: $font-size-default;
+  }
+
+  .fnsku {
+    font-size: $font-size-default;
+    font-weight: $font-weight-normal;
+  }
+
+  .kit {
+    float: left;
+    font-size: $font-size-small;
+    font-weight: $font-weight-bold;
+    position: absolute;
+    border: $border-default;
+    padding: $spacing-small;
+  }
+
+  .instructions {
+    position: absolute;
+    margin-top: -22px;
+    font-family: $font-secondary;
+    font-size: $font-size-small;
+    font-weight: $font-weight-extra-bold;
+    padding: $spacing-small;
+    border: $border-default;
+  }
+
+  .condition {
+    float: left;
+    font-size: $font-size-medium;
+    padding-top: 2px;
+  }
+
+  .tm {
+    float: right;
+    font-size: $font-size-medium;
+    padding-top: 2px;
+  }
+
+  .bottom {
+    width: 100%;
+  }
+
+  img {
+    height: $barcode-height;
+    width: 100%;
+
+    &#barcode {
+      max-width: 100%;
+      max-height: $barcode-max-height;
+    }
+  }
+}

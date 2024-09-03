@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\IDTypeEnum;
 use App\Enums\ChannelEnum;
-use App\Entities\ProductEntity;
+use App\Entities\LabelEntity;
 use Awcodes\Curator\Models\Media;
 use Spatie\ModelStates\HasStates;
 use App\Traits\CreatedByUpdatedBy;
@@ -84,20 +84,22 @@ class Product extends Model
         return $this->belongsToMany(Packlist::class);
     }
 
-    public function toProductEntity(int $count)
+    public function toLabelEntity(int $count)
     {
-        return new ProductEntity(
-            channel: ChannelEnum::fromString($this->channel),
+        return new LabelEntity(
+            channel: ChannelEnum::Amazon,
             sku: $this->sku,
             count: $count,
             title: $this->title,
-            id: $this->id,
+            sellableId: $this->sellable_id,
             gtin: $this->gtin,
             fnsku: $this->fnsku,
             brand: $this->brand,
-            idType: IDTypeEnum::UNKNOWN,
+            options: null,
+            idType: IDTypeEnum::FNSKU,
             defaultLabelTemplate: null,
-            prepDetailId: null
+            prepDetailId: null,
+            packlistId: null
         );
     }
 

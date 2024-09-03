@@ -14,8 +14,8 @@ enum IDTypeEnum: string
     {
         return match ($this) {
             self::UPC => 'UPC',
-            self::FNSKU => 'C128',
-            self::UNKNOWN => 'UNKNOWN', // Default or unrecognized format
+            self::FNSKU => 'C128A',
+            self::UNKNOWN => '', // Default or unrecognized format
         };
     }
 
@@ -24,6 +24,8 @@ enum IDTypeEnum: string
         return match (strtolower($value)) {
             'upc' => self::UPC,
             'fnsku' => self::FNSKU,
+            'asin' => self::FNSKU, // Looks bad, but ASIN will always be FNSKU on the barcode side. For now, we have no need for the ASIN.
+            'ean' => self::UPC, // EAN and UPC are subsets of GTIN
             default => self::UNKNOWN,
         };
     }

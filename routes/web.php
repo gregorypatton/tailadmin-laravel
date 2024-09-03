@@ -6,10 +6,13 @@ use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Models\Product;
+use App\Http\Controllers\LabelSheetController;
+
+use App\Http\Controllers\BarcodeController;
 
 /**
  * You can register your routes here.
-**/
+ **/
 include base_path('routes/web_modules/index.php');
 
 /* Change Lang */
@@ -28,8 +31,6 @@ Route::get('lang/{locale}', function ($locale) {
         session()->put('locale', $locale);
     }
     return redirect()->back();
-
-
 })->name('lang');
 Route::middleware([
     'auth:sanctum',
@@ -65,7 +66,7 @@ Route::middleware([
 
         /*Resource Routes*/
         Route::resources([
-            'settings-user'=> \App\Http\Controllers\Settings\UserController::class,
+            'settings-user' => \App\Http\Controllers\Settings\UserController::class,
             'settings-role' => \App\Http\Controllers\Settings\RoleController::class,
             'settings-permission' => \App\Http\Controllers\Settings\PermissionController::class
         ]);
@@ -74,11 +75,23 @@ Route::middleware([
         Route::post('settings-user', [\App\Http\Controllers\Settings\UserController::class, 'index'])->name('settings-user.search');
         Route::post('settings-role', [\App\Http\Controllers\Settings\RoleController::class, 'index'])->name('settings-role.search');
         Route::post('settings-permission', [\App\Http\Controllers\Settings\PermissionController::class, 'index'])->name('settings-permission.search');
-
     });
+
+    /**** Let's begin the label routes... */
+    /** Barcodes */
+
+
+    Route::get('/barcode/create', [BarcodeController::class, 'create'])->name('barcode.create');
+    Route::post('/label/generate', [LabelSheetController::class, 'generateLabels'])->name('label.generate');
+
 
     /*This pages for example, you can delete when you design the your system*/
     //Example Pages
+    Route::post('/label/generate', [LabelSheetController::class, 'generateLabels'])->name('label.generate');
+    Route::get('/label/render', [LabelSheetController::class, 'renderLabelSheet'])->name('label.renderSheet');
+    Route::get('generate-labels', function () {
+        return Inertia::render('LabelGenerator');
+    })->name('generate-labels');
     Route::get('login-app', function () {
         return Inertia::render('Samples/Examples/Login');
     })->name('login-app');
@@ -250,6 +263,3 @@ Route::middleware([
         return Inertia::render('Samples/FormElements/Validation');
     })->name('form-validation');
 });
-
-
-

@@ -2,71 +2,102 @@
 
 namespace App\Adapters;
 
-use App\Entities\ProductEntity;
+use App\Adapters\ProductComponent;
+use App\Entities\LabelEntity;
 use App\Enums\ChannelEnum;
 use App\Enums\IDTypeEnum;
+use Milon\Barcode\DNS1D;
 
-class ProductEntityAdapter implements ProductComponent
+class LabelEntityAdapter implements ProductComponent
 {
-    private ProductEntity $productEntity;
+    private LabelEntity $labelEntity;
 
     private int $count;
-
-    public function __construct(ProductEntity $productEntity, int $count)
+    public function __construct(LabelEntity $labelEntity, int $count)
     {
-        $this->productEntity = $productEntity;
+        $this->labelEntity = $labelEntity;
         $this->count = $count;
     }
 
-    public function getId(): string
+    public function getsellableId(): string
     {
-        return $this->productEntity->id;
+        return $this->labelEntity->sellableId;
     }
 
     public function getIdType(): IDTypeEnum
     {
-        return $this->productEntity->idType;
+        return $this->labelEntity->idType;
     }
 
     public function isKit(): bool
     {
-        return $this->productEntity->isKit();
+        return $this->labelEntity->isKit();
     }
 
     public function isHideUpc(): bool
     {
-        return $this->productEntity->isHideUpc();
+        return $this->labelEntity->isHideUpc();
     }
 
     public function isActive(): bool
     {
-        return $this->productEntity->isActive();
+        return $this->labelEntity->isActive();
     }
 
     public function getChannel(): ?ChannelEnum
     {
-        return $this->productEntity->channel;
+        return $this->labelEntity->channel;
     }
 
     public function getGtin(): ?int
     {
-        if (! is_null($this->productEntity->gtin)) {
-            return $this->productEntity->gtin;
+        if (! is_null($this->labelEntity->gtin)) {
+            return $this->labelEntity->gtin;
         }
     }
 
     public function getSku(): string
     {
-        return $this->productEntity->sku;
+        return $this->labelEntity->sku;
     }
 
     public function getTitle(): string
     {
-        return $this->productEntity->title;
+        return $this->labelEntity->title;
     }
 
     public function getCount(): int
     {
         return $this->count;
+    }
+    public function getBrand(): ?string
+    {
+        return $this->labelEntity->brand;
+    }
+    public function getFnsku(): ?string
+    {
+        return $this->labelEntity->fnsku;
+    }
+    public function barcode(?int $width, ?int $height): string
+    {
+        return '<img src="data:image/png;base64,' . (new DNS1D())->getBarcodePNG($this->labelEntity->sellableId, $this->labelEntity->idType->getBarcodeFormat(), $width, $height) . '" id="barcode"/>';
+    }
+    public function toArray(): array
+    {
+        return [
+            'sku' => $this->getSku(),
+            'title' => $this->getTitle(),
+            'sellableId' => $this->getsellableId(),
+            'gtin' => $this->getGtin(),
+            'fnsku' => $this->getFnsku(),
+            'brand' => $this->getBrand(),
+            'idType' => $this->getIdType(),
+            'count' => $this->count,
+            'customMessage' => null,
+            'isKit' => $this->isKit(),
+            'isHideUpc' => $this->isHideUpc(),
+            'isActive' => $this->isActive(),
+            // Add any other relevant fields
+        ];
     }
 }

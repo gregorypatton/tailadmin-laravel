@@ -1,7 +1,7 @@
 /*Default Settings*/
 const appConf = {
-    appName: 'TailAdmin',
-    catchPhrase: 'Peace at Home, Peace in the World',
+    appName: 'Zonn',
+    catchPhrase: '',
     logo: {
       dark: '/img/dark-logo.svg',
       light: '/img/light-logo.svg'
@@ -97,21 +97,11 @@ const topBarConf = {
 
 const footerConf = {
     visible: true,
-    content: "<a\n" +
-        "              class=\"text-blue-600 hover:underline\"\n" +
-        "              href=\"https://tailadmin.dev/\"\n" +
-        "              target=\"_blank\"\n" +
+    content: "<span\n" +
+        "              class=\"text-white text-lg hover:underline\"\n" +
         "            >\n" +
-        "              TailAdmin v2\n" +
-        "              </a>\n" +
-        "            <span>by</span>\n" +
-        "            <a\n" +
-        "              class=\"text-teal-400 hover:underline\"\n" +
-        "              href=\"https://github.com/sinan-aydogan\"\n" +
-        "              target=\"_blank\"\n" +
-        "            >\n" +
-        "              Sinan AYDOĞAN\n" +
-        "            </a>"
+        "              Zonn\n" +
+        "              </span>\n"
 };
 
 /*Module Settings*/
