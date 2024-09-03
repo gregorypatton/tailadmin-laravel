@@ -36,7 +36,6 @@
       <t-button type="submit">Generate Labels</t-button>
     </form>
 
-    <!-- Render iframe and print button only if htmlContent is present -->
     <div v-if="htmlContent">
       <iframe ref="labelIframe" :srcdoc="htmlContent" style="width: 100%; height: 600px; border: 1px solid #ccc;"></iframe>
       <t-button @click="printIframe">Print Labels</t-button>
@@ -48,6 +47,7 @@
 import { ref } from 'vue';
 import TButton from "@/Components/Button/TButton.vue";
 import { useForm } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const form = useForm({
   products: [{ sku: '', count: 1 }],
@@ -64,15 +64,14 @@ function addProduct() {
 function removeProduct(index) {
   form.products.splice(index, 1);
 }
-
 async function submitForm() {
   form.post('/label/generate', {
     onError: (errorBag) => {
       errors.value = errorBag;
     },
-    onSuccess: async (page) => {
+    onSuccess: async () => {
       try {
-        const response = await axios.post('/label/generate');
+        const response = await axios.get('/label/render');
         htmlContent.value = response.data;
       } catch (error) {
         console.error('Error generating labels:', error);

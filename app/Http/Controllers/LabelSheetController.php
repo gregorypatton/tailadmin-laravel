@@ -9,6 +9,7 @@ use App\Enums\IDTypeEnum;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Barryvdh\Debugbar\Facades\Debugbar;
 
 class LabelSheetController extends Controller
 {
@@ -35,13 +36,12 @@ class LabelSheetController extends Controller
 
         // Store the validated request in session to pass to the new window
         $request->session()->put('label_data', $validated);
+        Debugbar::info("Started rendering");
 
-        // Generate a URL that will be used to open the label sheet in a new window
-        $url = route('label.renderSheet');
-
-        // Use Inertia to redirect to the new window
-        return Inertia::location($url);
+        // Return the rendered HTML as a response
+        return $this->renderLabelSheet();
     }
+
 
     public function renderLabelSheet()
     {
@@ -59,7 +59,7 @@ class LabelSheetController extends Controller
         $labelEntities = $productsData->map(function ($product) use ($validated) {
             $brandName = $product->brand ? $product->brand : 'none';
             $productInput = collect($validated['products'])->firstWhere('sku', $product->sku); // Get the mirrored count value from the sku => count array
-
+            DebugBar::info("Getting product data...");
             return new LabelEntity(
                 channel: ChannelEnum::Amazon,
                 sku: $product->sku,
@@ -76,21 +76,39 @@ class LabelSheetController extends Controller
 
         // Build the pages with the label entities
         $pages = $this->buildLabelData(30, $labelEntities);
+        DebugBar::info("Label data built, generating label html...");
         foreach ($pages as $page) {
             $this->html .= '<div class="page">';
-            foreach ($page as $i => $entity) {
-                $label =  (is_null($entity)) ? View::make('labels.label-30up.label', ['currentIndex' => $i, 'product' => $entity['label']])->render() :
-                    View::make('labels.label-30up.blank')->render();
+            DebugBar::info("PAGE");
+            foreach ($page as $i => $entityCountArray) {
+                $entity = $entityCountArray['label'];
+                $count = $entityCountArray['count'];
+                $label = '';
+                if ($entity instanceof LabelEntity) {
+                    for ($i = 0; $i <= $count; $i++) {
+                        DebugBar::info("label: " . $entity->sku . ", position: " . $i);
+                        $label .= View::make('labels.label-30up.label', ['currentIndex' => $i, 'product' => $entity])->render();
+                    }
+                } else {
+                    for ($i = 0; $i <= $count; $i++) {
+                        DebugBar::info("label: blank, position: " . $i);
+
+                        $label = View::make('labels.label-30up.blank')->render();
+                    }
+                }
                 $this->html .= $label;
             }
             $this->html .= '</div>';
+            DebugBar::info("finished!");
         }
-        return $this->html;
+
+        DebugBar::info("response time!");
+        return response($this->html, 200)->header('Content-Type', 'text/html');
     }
 
     protected function buildLabelData(?int $labelsPerPage, $labelEntities)
     {
-        ($labelsPerPage) ? $labelsPerPage : 30;
+        $labelsPerPage = $labelsPerPage ?? 30;
 
         $pages = [];
         $currentPage = [];
@@ -132,10 +150,9 @@ class LabelSheetController extends Controller
 
         // Add any remaining labels or blanks to the final page
         if (!empty($currentPage)) {
-            while ($currentCount < $labelsPerPage) {
-                $currentPage[] = ['' => null];  // Insert nulls for the remaining blank labels
-                $currentCount++;
-            }
+            $nullCount = $labelsPerPage - $currentPage[0]['count'];
+            $currentPage[] = ['label' => 'blank', 'count' => $nullCount];  // Insert nulls for the remaining blank labels
+            $currentCount = 0;
             $pages[] = $currentPage;
         }
 

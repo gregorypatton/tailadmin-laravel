@@ -11,7 +11,7 @@
         <h1> {{ $product->sku }} </h1>
 
         <div class='f_right'>
-            {{ $product->barcode }}
+            {!! $product->barcode !!}
             @if ($product->idType == 'UPC')
                 <div class='fnsku'>{{ $product->id }}</div>
             @else
