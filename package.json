@@ -37,6 +37,7 @@
         "@vuelidate/validators": "^2.0.4",
         "@vueuse/core": "^10.11.0",
         "chart.js": "^4.4.3",
+        "draggable-resizable-vue3": "^1.0.94-beta",
         "highlight.js": "^11.9.0",
         "lodash": "^4.17.21",
         "nprogress": "^0.2.0",
@@ -45,8 +46,8 @@
         "v-calendar": "^3.1.2",
         "vue-chartjs": "^5.3.1",
         "vue-i18n": "^9.13.1",
-        "vue-resizable": "^2.1.7",
         "vue-select": "^4.0.0-beta.6",
+        "vue3-draggable": "^2.0.9",
         "vue3-highlightjs": "^1.0.5",
         "vue3-keypress": "^4.0.1"
     }
